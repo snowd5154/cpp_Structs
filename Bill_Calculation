@@ -1,0 +1,102 @@
+//Header file section
+#include<iostream>
+#include<iomanip>
+#include<string>
+
+using namespace std;
+
+//Structure declaration
+struct menuitemtype {
+
+	string menuitem[10];
+	float menuprice[10];
+
+};
+
+//Function Prototype declaration
+void getdata(menuitemtype& m, int& c);
+void showmenu();
+void printcheck(menuitemtype& m, int c);
+
+void main() {
+
+	//Start main
+	menuitemtype menulist;
+	int c;
+	showmenu();
+	getdata(menulist, c);
+	printcheck(menulist, c);
+	system("pause");
+
+}//End function
+
+//Function Definitions
+void showmenu() {
+
+	cout << "WELCOME TO JOHNNY'S RESTAURANT" << endl << endl;
+	cout << "**********MENU***********\n\n";
+	cout << "1-->Plain egg" << "\t\t" << "$1.45" << endl << endl;
+	cout << "2-->Eggs and Bacon" << "\t" << "$2.45" << endl << endl;
+	cout << "3-->Muffin" << "\t\t" << "$0.99" << "\n\n";
+	cout << "4-->French Toast" << "\t" << "$1.99" << endl << endl;
+	cout << "5-->Fruit Basket" << "\t" << "$2.49\n\n";
+	cout << "6-->Cereal" << "\t\t" << "$0.69\n\n";
+	cout << "7-->Coffee" << "\t\t" << "$0.50" << endl << endl;
+	cout << "8-->Tea" << "\t\t\t" << "$0.75\n\n";
+	cout << "**************************" << endl << endl;
+
+}//End of showmenu
+
+void getdata(menuitemtype& m, int& c) {
+
+	int k;
+	int choice;
+	cout << "Enter the total number of items selected by the customer: ";
+	cin >> c;
+	cout << "Enter the item selected: " << endl;
+	for (k = 0; k < c; k++) {
+		cin >> choice;
+		switch (choice) {
+		case 1:m.menuitem[k] = "Plain Egg";
+			m.menuprice[k] = 1.45;
+			break;
+		case 2:m.menuitem[k] = "Bacon and Egg";
+			m.menuprice[k] = 2.45;
+			break;
+		case 3:m.menuitem[k] = "Muffin";
+			m.menuprice[k] = 0.99;
+			break;
+		case 4:m.menuitem[k] = "French Toast";
+			m.menuprice[k] = 1.99;
+			break;
+		case 5:m.menuitem[k] = "FruitBasket";
+			m.menuprice[k] = 2.49;
+			break;
+		case 6:m.menuitem[k] = "Cereal";
+			m.menuprice[k] = 0.69;
+			break;
+		case 7:m.menuitem[k] = "Coffee";
+			m.menuprice[k] = 0.50;
+			break;
+		case 8:m.menuitem[k] = "Tea";
+			m.menuprice[k] = 0.75;
+			break;
+		}
+	} //End for loop
+} //End getdata
+
+void printcheck(menuitemtype& m, int c) {
+
+	int j;
+	float price = 0.0, tax = 0.0, total;
+	cout << "Welcome to Johnny's Restaurant" << endl << endl;
+	for (j = 0; j < c; j++) {
+		cout << m.menuitem[j] << " " << m.menuprice[j] << endl;
+		price = price + m.menuprice[j];
+	}
+	tax = 0.05 * price;
+	total = tax + price;
+	cout << setprecision(2);
+	cout << "Tax=" << tax << endl;
+	cout << "Amount due=" << total << endl;
+}//End of printcheck
