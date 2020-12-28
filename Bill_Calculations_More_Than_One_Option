@@ -1,0 +1,263 @@
+#include <iostream>
+
+#include <fstream>
+
+#include <iomanip>
+
+using namespace std;
+
+const int NO_OF_ITEMS = 8;
+
+//Structure definition
+
+struct menuItemType
+
+{
+
+                string menuItem;
+
+                double menuPrice;
+
+};
+
+//Function Prototype
+
+void getData(ifstream& inFile, menuItemType mList[], int listSize);
+
+void showMenu(menuItemType mList[], int listSize);
+
+//make changes in the function prototype to incorporate multiple item
+
+void printCheck(menuItemType mList[], int listSize, int cList[], int oList[], int cListLength);
+
+//make changes in the function prototype to incorporate multiple item
+
+void makeSelection(int listSize, int cList[], int oList[],int& cListLength);
+
+bool isItemSelected(int cList[], int cListLength, int itemNo);
+
+int main()
+
+{
+
+                menuItemType menuList[NO_OF_ITEMS];
+
+                int choiceList[NO_OF_ITEMS];
+
+                int choiceListLength;
+
+                //new array is added to keep track of multiple items
+
+                int orderNum[NO_OF_ITEMS];   
+
+                ifstream inFile;
+
+                cout << fixed << showpoint << setprecision(2);
+
+               
+
+                inFile.open("Ch9_Ex4Data.txt");        //Open file for reading
+
+                if (!inFile)
+
+                {
+
+                cout << "Cannot open the input file. Program Terminates!"
+
+                << endl;
+
+                return 1;             
+
+                }
+
+                //Calling function
+
+                getData(inFile, menuList, NO_OF_ITEMS);
+
+                showMenu(menuList, NO_OF_ITEMS);
+
+                makeSelection(NO_OF_ITEMS, choiceList, orderNum, choiceListLength);
+
+                printCheck(menuList, NO_OF_ITEMS, choiceList, orderNum, choiceListLength);
+
+               
+
+                return 0;
+
+}
+
+//Function to read the menu details from text file
+
+void getData(ifstream& inFile, menuItemType mList[], int listSize)
+
+{
+
+                char ch;
+
+                for (int i = 0; i < listSize; i++)
+
+                {
+
+                                getline(inFile, mList[i].menuItem);
+
+                                inFile >> mList[i].menuPrice;
+
+                                inFile.get(ch);
+
+                }
+
+}
+
+//Function to display menu on screen
+
+void showMenu(menuItemType mList[], int listSize)
+
+{
+
+                cout << "Welcome to Johnny's Resturant" << endl;
+
+                cout << "----Today's Menu----" << endl;
+
+                for (int i = 0; i < listSize; i++)
+
+                cout << i+1 << ": " << left << setw(15) << mList[i].menuItem
+
+                                << right << " $" << mList[i].menuPrice << endl;
+
+                cout << endl;
+
+}
+
+//Function calculate amount of individual item and total amount including tax.
+
+//Then prints the bill on the screen in formatted way.
+
+void printCheck(menuItemType mList[], int listSize,
+
+               int cList[], int oList[], int cListLength)
+
+{
+
+                int i;
+
+                double salesTax;
+
+                double amountDue = 0;
+
+                cout << "Welcome to Johnny's Resturant" << endl;
+
+                for (i = 0; i < cListLength; i++)
+
+                {
+
+                                cout << left << setw(2)<< oList[i] << left << setw(15) << mList[cList[i]].menuItem
+
+                                                << right << " $" << setw(4) << mList[cList[i]].menuPrice*oList[i] << endl;
+
+                                //Made changes in formula to calculate Total amount
+
+                                amountDue += mList[cList[i]].menuPrice*oList[i];
+
+                }
+
+                salesTax = amountDue * .05;
+
+                cout << left << setw(15) << "Tax " << right << " $"
+
+                                << salesTax << endl;
+
+                amountDue = amountDue + salesTax;
+
+                cout << left << setw(15) << "Amount Due " << right
+
+                                << " $" << amountDue << endl;
+
+}
+
+//Function takes user selection of item
+
+void makeSelection(int listSize, int cList[], int oList[], int& cListLength)
+
+{
+
+                int selectionNo = 0;
+
+                int itemNo;
+
+                char response;
+
+                cListLength = 0;
+
+                cout << "You can make up to " << listSize
+
+                                << " single order selections" << endl;
+
+                cout << "Do you want to make selection Y/y (Yes), N/n (No): ";
+
+                cin >> response;
+
+                cout << endl;
+
+                while ((response == 'Y' || response == 'y') && cListLength < 8)
+
+                {
+
+                                cout << "Enter item number: ";
+
+                                cin >> itemNo;
+
+                                cout << endl;
+
+                                if (!isItemSelected(cList,cListLength,itemNo))
+
+                                {
+
+                                                cList[cListLength] = itemNo-1;
+
+                                                //Additional code added in program to ask for the multiple items
+
+                                                cout<<"How many orders: ";
+
+                                                cin>>oList[cListLength];
+
+                                                cListLength++;
+
+                                }             
+
+                                else
+
+                                                cout << "Item already selected" << endl;
+
+                                cout << "Select another item Y/y (Yes), N/n (No): ";
+
+                                cin >> response;
+
+                                cout << endl;
+
+                }
+
+}
+
+//Function to check whether the item is already selected or not
+
+bool isItemSelected(int cList[], int cListLength, int itemNo)
+
+{
+
+                bool found = false;
+
+                for (int i = 0; i < cListLength; i++)
+
+                if (cList[i] == itemNo)
+
+                {
+
+                                found = true;
+
+                                break;
+
+                }
+
+                return found;
+
+}
