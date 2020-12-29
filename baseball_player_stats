@@ -1,0 +1,94 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+struct Player
+{
+    char Pname[20];
+    int No_of_Home_Runs;
+    int No_of_Hits;
+
+};
+int main(){
+    Player p[10];
+    int choice;
+    char s[20];
+    int c=0,n=10;
+    ofstream file;
+    while (1)
+    {
+        /* code */
+        cout<<"Menu to store the data of a baseball players"<<endl;
+        cout<<"1.input the data\t2.Display the data\t3.Search the player\t4.Save data to the file\t5.exit"<<endl;
+        cout<<"Enter your choice:"<<endl;
+        cin>>choice;
+        switch(choice)
+        {
+        case 1:
+            /* code */
+            for(int i=0;i++;i<n){
+            cout<<"Enter the players name:"<<endl;
+            cin>>p[i].Pname;
+            cout<<"Enter the no of Home runs:"<<endl;
+            cin>>p[i].No_of_Home_Runs;
+            cout<<"Enter the no of hits:"<<endl;
+            cin>>p[i].No_of_Hits;
+            }
+            break;
+
+        case 2:
+            /*code*/
+            cout<<"Name of the player\t\tNumber of Home Runs\t\tNumber of Hits\n";
+            for (int i = 0; i < 10; i++)
+            {
+                /* code */
+                cout<<p[i].Pname<<"\t\t"<<p[i].No_of_Home_Runs<<"\t\t"<<p[i].No_of_Hits<<endl;
+            }
+            
+        break;
+        case 3:
+            cout<<"Enter the name to search the player"<<endl;
+            cin>>s;
+            
+            for (int i = 0; i < 10; i++)
+            {
+                /* code */
+                if(p[i].Pname==s){
+                    cout<<"Player found in "<<i<<"index"<<endl;
+                    cout<<"Name of the player:"<<p[i].Pname<<endl;
+                    cout<<"Number of Home Runs:"<<p[i].No_of_Home_Runs<<endl;
+                    cout<<"Number of Hits:"<<p[i].No_of_Hits<<endl;
+                    c+=1;
+                }
+            }
+            if(c>0){cout<<"Player is not in the file"<<endl;}
+        break;
+        case 4:
+            cout<<"Saving data to the file"<<endl;
+            
+            file.open("data.txt");
+            if(!file.is_open()){
+                cout<<"Error reading file"<<endl;
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+              for (int i = 0; i < 10; i++)
+            {
+                /* code */
+                file<<"Name of the Player\t\tNo of Home runs\t\tNo of Hits"<<endl;
+                file<<p[i].Pname<<"\t\t"<<p[i].No_of_Home_Runs<<"\t\t"<<p[i].No_of_Hits<<endl;
+            }
+            file.close();  
+                }  
+        break;
+        case 5:
+            exit(0);       
+          break;  
+        default:
+            cout<<"Invalid option, Enter the correct choice"<<endl;
+            break;
+        }
+
+    }
+    
+}
