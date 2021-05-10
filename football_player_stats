@@ -1,110 +1,121 @@
 #include<iostream>
-#include<fstream>
-#include<string.h>
-#include<ostream>
+#include<fstream>//Stream class to both read and write from/to files.
+#include<string.h>//Header to set up and provide strings
+#include<ostream>//responsible for handling output stream
 using namespace std;
-void createData();//prototypes
+//prototypes
+void createData();
 void printData();
 void searchData();
 void updateData();
-struct player//declaring structure with required fields
+struct player//declaring structures
 {
-   string playername;
-   int position,nooftdownds,catches,passingyards,receivingyards,rushingyards;
-          
+    string playername; //string
+    int position, nooftdownds, catches, passingyards, receivingyards, rushingyards;//int
+
 };
-struct player p[10];//creating 10 players
-ofstream f1,f2;
-int main()
+struct player p[10]; //creating 10 players
+ofstream f1, f2; //reading files
+int main()//driver function
 {
-   int ch;
-   while(1)
-   {
-  
-       cout<<"\nEnter your choice"<<endl;
-       cout<<"1.Create data\n2.Print Data\n 3.Search Data\n4.Update Data\n5.Exit\n";
-       cin>>ch;
-   switch(ch)
-   {
-       case 1:
-               createData();//calling function
-               break;
-       case 2:
-               printData();
-               break;
-       case 3:
-               searchData();
-               break;
-       case 4:
-               updateData();
-               break;
-       case 5:
-               exit(0);
-   }
-}
-   return 0;  
+    int ch; //single digit choice
+    while (1)
+    {
+
+        cout << "\nEnter your choice: \n" << endl;
+        cout << "1.Create data\n2.Print Data\n3.Search Data\n4.Update Data\n5.Exit\n\n"; //option
+        cin >> ch; //input number choice
+        switch (ch) //options/scenarios
+        {
+        case 1:
+            createData();//calling function
+            break;
+        case 2:
+            printData();//calling function
+            break;
+        case 3:
+            searchData();//calling function
+            break;
+        case 4:
+            updateData();//calling function
+            break;
+        case 5:
+            exit(0); //exit
+        }
+    }
+    return 0;
 }
 void createData()
 {
-  
-   f1.open("player.txt");
-  
-   int i;
-   cout<<"Enter player information(name,position,touchdowns,catches,passingyards,receivingyards,rushingyards\n";
-   for(i=1;i<10;i++)
-   {
-       cout<<"Enter Player "<<i<<"Details"<<endl;
-       cin>>p[i].playername>>p[i].position>>p[i].nooftdownds>>p[i].catches>>p[i].passingyards>>p[i].receivingyards>>p[i].rushingyards;
-       f1<<p[i].playername<<" "<<p[i].position<<" "<<p[i].nooftdownds<<" "<<p[i].catches<<" "<<p[i].passingyards<<" "<<p[i].receivingyards<<" "<<p[i].rushingyards<<"\n";
-       //cout<<"Succesfully inserted into file";
-   }
-  
-//fclose(f1);
+
+    f1.open("player.txt");//name of first file
+
+    int i;
+    cout << "Enter player information(name, position, touchdowns, catches, passingyards, receivingyards, rushingyards\n\n";
+    for (i = 1; i < 10; i++)//for-loop
+    {
+        cout << "Enter Player " << i << "Details" << endl;
+        //inputting the information/stats
+        cin >> p[i].playername >> p[i].position >> p[i].nooftdownds >> p[i].catches >> p[i].passingyards >> p[i].receivingyards >> p[i].rushingyards;
+        //Showing the successful input for each of the respective stats
+        f1 << p[i].playername << " " << p[i].position << " " << p[i].nooftdownds << " " << p[i].catches << " " << p[i].passingyards << " " << p[i].receivingyards << " " << p[i].rushingyards << "\n";
+        cout<< "\nSuccesfully inserted into file!!";
+    }
+
+    //fclose(f1);
+    //close file 1 after completion
 }
-void printData()//function to display player information
+void printData() //function to display player information
 {
-   for(int i=1;i<10;i++)//repeats until condition false ...
-   {
-       cout<<"\nPlayer "<<i<<"Details"<<endl;
-       cout<<p[i].playername<<p[i].position<<p[i].nooftdownds<<p[i].catches<<p[i].passingyards<<p[i].receivingyards<<p[i].rushingyards;//Display total player information
-   }
+    for (int i = 1;i < 10;i++) //repeats until condition false ...
+    {
+        cout << "\n\nPlayer: " << i << "Details" << endl << endl;
+        
+        //Display total player information
+        cout << p[i].playername << p[i].position << p[i].nooftdownds << p[i].catches << p[i].passingyards << p[i].receivingyards << p[i].rushingyards;
+    }
 }
 void searchData()
 {
-   string name;//name for searching
-   fflush(stdin);//clear the previous console
-   cout<<"Enter player name to search \n";
-   cin>>name;//read the search player
-   for(int i=1;i<10;i++)
-   {
-       if((p[i].playername).compare(name)==0)//comparing required name with players
-       {
-           cout<<"Player is available \ndetails are\n";
-           cout<<p[i].playername<<p[i].position<<p[i].nooftdownds<<p[i].catches<<p[i].passingyards<<p[i].receivingyards<<p[i].rushingyards;//Display total player information
-       }
-   }
+    string name; //name used for searching
+    fflush(stdin); //clearing the previous console
+    cout << "Enter the player name to search: ";
+    cin >> name;//read the search player
+    cout << "\n\n";
+    for (int i = 1; i < 10; i++)//for-loop
+    {
+        if ((p[i].playername).compare(name) == 0) //comparing required name with players
+        {
+            cout << "Player is available! \n\nDetails are: ";
+            
+            //Display total player information
+            cout << p[i].playername << p[i].position << p[i].nooftdownds << p[i].catches << p[i].passingyards << p[i].receivingyards << p[i].rushingyards;
+        }
+    }
 }
 void updateData()
 {
-   f2.open("player1.txt");
-   string name;
-   cout<<"Enter the player details to be updated\n";
-   cin>>name;
-  
-  
-   for(int i=1;i<10;i++)
-   {
-       if((p[i].playername).compare(name)==0)//comparing required name with players
-       {
-           cout<<"\nEnter Player information\n";
-           cin>>p[i].playername>>p[i].position>>p[i].nooftdownds>>p[i].catches>>p[i].passingyards>>p[i].receivingyards>>p[i].rushingyards;//reading total player update information
-           f2<<p[i].playername<<" "<<p[i].position<<" "<<p[i].nooftdownds<<" "<<p[i].catches<<" "<<p[i].passingyards<<" "<<p[i].receivingyards<<" "<<p[i].rushingyards<<"\n";
-      
-       }
-       else
-       {
-       f2<<p[i].playername<<" "<<p[i].position<<" "<<p[i].nooftdownds<<" "<<p[i].catches<<" "<<p[i].passingyards<<" "<<p[i].receivingyards<<" "<<p[i].rushingyards<<"\n";
-          
-       }
-}
+    f2.open("player1.txt"); //open file 2 using file 1 information (stats)
+    string name;
+    cout << "Enter the player details to be updated: ";
+    cin >> name; //Enter the name of the player
+
+
+    for (int i = 1;i < 10;i++) //for-loop
+    {
+        if ((p[i].playername).compare(name) == 0)//comparing required name with players
+        {
+            cout << "\n\nEnter Player information: ";
+            
+            //reading total player update information
+            cin >> p[i].playername >> p[i].position >> p[i].nooftdownds >> p[i].catches >> p[i].passingyards >> p[i].receivingyards >> p[i].rushingyards;
+            f2 << p[i].playername << " " << p[i].position << " " << p[i].nooftdownds << " " << p[i].catches << " " << p[i].passingyards << " " << p[i].receivingyards << " " << p[i].rushingyards << "\n";
+
+        }
+        else
+        {
+            f2 << p[i].playername << " " << p[i].position << " " << p[i].nooftdownds << " " << p[i].catches << " " << p[i].passingyards << " " << p[i].receivingyards << " " << p[i].rushingyards << "\n";
+
+        }
+    }
 }
